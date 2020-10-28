@@ -3,6 +3,21 @@ variable "resourceGroup" {
   description = "Resource Group name"
 }
 
+variable "tags" {
+  type        = map
+  description = "Tags for the Resource Group"
+  default     = {
+    tag1      = "label1"
+    tag2      = "label2"
+    tag3      = "label3"
+  }
+}
+
+variable "storage" {
+  type        = string
+  description = "Azure storage account"
+}
+
 variable "location" {
   type        = string
   description = "Azure region where to create resources."

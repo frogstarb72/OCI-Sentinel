@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "ocifun" {
   name     = var.resourceGroup
   location = var.location
+  tags     = var.tags
 }
 
 resource "azurerm_storage_account" "ocifun" {
@@ -9,6 +10,7 @@ resource "azurerm_storage_account" "ocifun" {
   location                 = azurerm_resource_group.ocifun.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  min_tls_version          = "TLS1_2"
 }
 
 resource "azurerm_app_service_plan" "ocifun" {
@@ -99,6 +101,12 @@ resource "azurerm_function_app" "ocifun" {
   storage_account_name          = azurerm_storage_account.ocifun.name
   storage_account_access_key    = azurerm_storage_account.ocifun.primary_access_key
   os_type                       = "linux"
+  version                       = "~3"
+
+  https_only                    = true
+  site_config {
+     min_tls_version            = "1.2"
+  }
 
   identity { 
       type = "SystemAssigned" 
